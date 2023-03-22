@@ -50,7 +50,7 @@ fun askPermissionForExternalPublicStorage(activity: FragmentActivity) {
             .permissions(requestList)
             .explainReasonBeforeRequest()
             .onExplainRequestReason { scope, deniedList ->
-                val message = "PermissionX需要您同意以下权限才能正常使用"
+                val message = "应用需要您同意以下权限才能正常使用"
                 scope.showRequestReasonDialog(deniedList, message, "Allow", "Deny")
             }
             .onForwardToSettings { scope, deniedList ->

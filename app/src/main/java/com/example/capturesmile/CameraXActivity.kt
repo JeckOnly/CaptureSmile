@@ -15,7 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
@@ -36,10 +38,6 @@ class CameraXActivity : AppCompatActivity() {
 
     private var smilePossibility: MutableState<Float> = mutableStateOf(0f)
 
-    private val maxCaptureNumber = 5
-
-    private var nowCapturedNumber = 0
-
     /**
      * 起码隔一秒钟拍摄一张照片
      */
@@ -58,10 +56,9 @@ class CameraXActivity : AppCompatActivity() {
     private val smileAnalyzer by lazy {
         FaceSmileAnalyzer {
             smilePossibility.value = it
-            if (startCapture.value and ((System.currentTimeMillis() - lastCaptureTime) > captureDelay) and (nowCapturedNumber < maxCaptureNumber) and (it > captureSmileRate)) {
+            if (startCapture.value and ((System.currentTimeMillis() - lastCaptureTime) > captureDelay)  and (it > captureSmileRate)) {
                 takePhoto(this, imageCapture)
                 lastCaptureTime = System.currentTimeMillis()
-                nowCapturedNumber += 1
             }
         }
     }
@@ -92,6 +89,8 @@ class CameraXActivity : AppCompatActivity() {
                     modifier = Modifier.align(Alignment.Center),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    Text(text = "微笑度数", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    Spacer(modifier = Modifier.height(20.dp))
                     LinearProgressIndicator(
                         progress = smileValue,
                         modifier = Modifier
@@ -111,14 +110,9 @@ class CameraXActivity : AppCompatActivity() {
                                 smileAnalyzer
                             )
                         }) {
-                            Text(text = "cameraX启动")
+                            Text(text = "相机启动")
                         }
                         Spacer(modifier = Modifier.width(20.dp))
-//                        Button(onClick = {
-//                            startActivity(Intent(this@CameraXActivity, Camera2Activity::class.java))
-//                        }) {
-//                            Text(text = "跳转到camera2")
-//                        }
 
                         Button(onClick = {
                             startCapture.value = !startCapture.value
@@ -153,7 +147,7 @@ fun askPermission(activity: FragmentActivity) {
             .permissions(requestList)
             .explainReasonBeforeRequest()
             .onExplainRequestReason { scope, deniedList ->
-                val message = "The Application needs permissions below to run"
+                val message = "应用需要您同意以下权限才能正常使用"
                 scope.showRequestReasonDialog(deniedList, message, "Allow", "Deny")
             }
             .onForwardToSettings { scope, deniedList ->
