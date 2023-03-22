@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <!--    camera2需要用到这个-->
+    <uses-feature android:name="android.hardware.camera" />
+
+    <!--    从Android 13开始，如果你的应用targetSdk指定到了33或以上，那么READ_EXTERNAL_STORAGE权限就完全失去了作用，申请它将不会产生任何的效果。-->
+
+    <!--    与此相对应地，Google新增了READ_MEDIA_IMAGES、READ_MEDIA_VIDEO和READ_MEDIA_AUDIO这3个运行时权限，分别用于管理手机的照片、视频和音频文件。-->
+
+    <!--    也就是说，以前只要申请一个READ_EXTERNAL_STORAGE权限就可以了。现在不行了，得按需申请，用户从而能够更加精细地了解你的应用到底申请了哪些媒体权限。-->
+    <!--    -->
+    <!--    原文链接：https://blog.csdn.net/guolin_blog/article/details/127024559-->
+
+    <!-- Required only if your app needs to access images or photos
+     that other apps created. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+    <!-- Required only if your app needs to access videos
+         that other apps created. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+
+    <!-- Required only if your app needs to access audio files
+         that other apps created. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+    <!-- If your app doesn't need to access media files that other apps created,
+         set the "maxSdkVersion" attribute to "28" instead. -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+    <application
+        android:allowBackup="true"
+        android:name="com.example.capturesmile.MyApplication"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:roundIcon="@mipmap/smile_launcher_round"
+        android:icon="@mipmap/smile_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:targetApi="31">
+        <activity
+            android:name="com.example.capturesmile.CameraXActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>
